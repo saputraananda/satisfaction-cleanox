@@ -1,0 +1,27 @@
+# Database credentials — NEVER commit
+config/db.php
+config/*.local.php
+.env
+*.env
+.env.*
+
+# PHP error & session logs
+*.log
+/logs/
+
+# OS & editor artifacts
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+*.swp
+*~
+
+# Dependencies (if added later)
+vendor/
+node_modules/
+
+# Build output
+dist/
+build/
