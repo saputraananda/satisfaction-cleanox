@@ -158,21 +158,6 @@ $preselected = isset($_SESSION['nps_score']) ? (int) $_SESSION['nps_score'] : -1
       <div class="progress-bar h-1.5 rounded-full" style="width:66%; background:#5B005F;"></div>
     </div>
 
-    <!-- CSAT recap -->
-    <div class="flex items-center gap-3 rounded-2xl px-4 py-3 mb-7 border animate-slide-in"
-      style="background:#F6F1F7;border-color:#E9D5EA;">
-      <span class="text-xl"><?= $csat_emoji ?></span>
-      <div class="flex-1">
-        <p class="text-xs text-gray-400 font-medium">Jawaban Kepuasan Layanan Anda</p>
-        <p class="text-sm font-semibold text-gray-700"><?= $csat_label ?></p>
-      </div>
-      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" style="color:#10B981;">
-        <path fill-rule="evenodd"
-          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-          clip-rule="evenodd" />
-      </svg>
-    </div>
-
     <!-- Title -->
     <div class="text-center mb-6 animate-fade-up" style="animation-delay:.08s">
       <div class="inline-flex items-center gap-2 text-xs font-semibold px-4 py-1.5 rounded-full mb-3"
@@ -184,9 +169,8 @@ $preselected = isset($_SESSION['nps_score']) ? (int) $_SESSION['nps_score'] : -1
         Rekomendasi
       </div>
       <h2 class="text-xl font-bold text-gray-800 leading-snug">
-        Seberapa besar kemungkinan Anda<br>
-        <span style="color:#5B005F;">Merekomendasikan</span> Waschen Laundry<br>
-        kepada teman atau keluarga? 💬
+        Rekomendasikan <span style="color:#5B005F;">Waschen</span> ke<br>
+        Teman dan Keluarga?
       </h2>
       <p class="text-gray-400 text-xs mt-2">0 = Tidak Mungkin &nbsp;·&nbsp; 10 = Pasti Rekomendasikan</p>
     </div>
@@ -237,16 +221,6 @@ $preselected = isset($_SESSION['nps_score']) ? (int) $_SESSION['nps_score'] : -1
             class="nps-btn aspect-square flex items-center justify-center rounded-xl border-2 text-xs font-bold <?= $isActive ? 'active' : '' ?>"
             style="background:<?= $isActive ? $abg : $bg ?>;color:<?= $isActive ? $atc : $tc ?>;border-color:<?= $isActive ? $abc : $bc ?>;"><?= $n ?></button>
         <?php endfor; ?>
-      </div>
-
-      <!-- Legend -->
-      <div class="flex justify-between text-xs text-gray-400 font-medium mb-6 px-1">
-        <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm inline-block"
-            style="background:#EF4444;"></span><span>Detractor (0–6)</span></div>
-        <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm inline-block"
-            style="background:#F59E0B;"></span><span>Passive (7–8)</span></div>
-        <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm inline-block"
-            style="background:#10B981;"></span><span>Promoter (9–10)</span></div>
       </div>
 
       <button type="submit" id="npsSubmit" <?= $preselected >= 0 ? '' : 'disabled' ?>

@@ -169,7 +169,7 @@ $nps_emoji  = $nps_score <= 6 ? '😔' : ($nps_score <= 8 ? '😌' : '🤩');
         Langkah Terakhir
       </div>
       <h2 class="text-xl font-bold text-gray-800 leading-snug">
-        Ada yang ingin Anda <span style="color:#5B005F;">sampaikan</span>? 🔧
+        Ada yang ingin Anda <span style="color:#5B005F;">sampaikan</span>?
       </h2>
       <p class="text-gray-400 text-sm mt-1.5">Pilih area masukan <span class="font-medium text-gray-500">(opsional)</span></p>
     </div>
@@ -191,6 +191,7 @@ $nps_emoji  = $nps_score <= 6 ? '😔' : ($nps_score <= 8 ? '😌' : '🤩');
         <?php
         $tags = [
           ['label'=>'Kecepatan Layanan',      'icon'=>'⚡'],
+          ['label'=>'Parfume','icon'=>'🌸'],
           ['label'=>'Kualitas Cucian',         'icon'=>'✨'],
           ['label'=>'Harga / Tarif',           'icon'=>'💰'],
           ['label'=>'Keramahan Staff',         'icon'=>'😊'],
