@@ -197,7 +197,7 @@ $nps_emoji  = $nps_score <= 6 ? '😔' : ($nps_score <= 8 ? '😌' : '🤩');
           ['label'=>'Kemudahan Pemesanan',     'icon'=>'📱'],
           ['label'=>'Kebersihan Tempat',       'icon'=>'🧹'],
           ['label'=>'Ketepatan Waktu',         'icon'=>'⏰'],
-          ['label'=>'Packaging / Pembungkusan','icon'=>'📦'],
+          ['label'=>'Packaging','icon'=>'📦'],
         ];
         foreach ($tags as $tag):
           $id = 'chip_' . preg_replace('/\W/', '_', $tag['label']);

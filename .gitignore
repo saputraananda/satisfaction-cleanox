@@ -5,6 +5,7 @@ config/*.local.php
 *.env
 .env.*
 
+
 # PHP error & session logs
 *.log
 /logs/
