@@ -116,10 +116,10 @@ session_destroy();
   </style>
 </head>
 
-<body class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+<body class="min-h-screen flex items-start sm:items-center justify-center p-4 py-8 relative">
 
-  <div id="bubblesContainer" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
-  <div id="confettiContainer" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+  <div id="bubblesContainer" class="fixed inset-0 pointer-events-none overflow-hidden"></div>
+  <div id="confettiContainer" class="fixed inset-0 pointer-events-none overflow-hidden"></div>
 
   <div class="bg-white rounded-3xl shadow-2xl w-full max-w-md px-8 py-10 animate-card-in relative z-10">
 

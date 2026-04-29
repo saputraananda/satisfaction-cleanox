@@ -94,9 +94,9 @@ $posted_nota = htmlspecialchars($_POST['no_nota'] ?? '', ENT_QUOTES, 'UTF-8');
   </style>
 </head>
 
-<body class="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+<body class="min-h-screen flex items-start sm:items-center justify-center p-4 py-8 relative">
 
-  <div id="bubblesContainer" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+  <div id="bubblesContainer" class="fixed inset-0 pointer-events-none overflow-hidden"></div>
 
   <!-- ===== MODAL: Nota sudah diisi ===== -->
   <?php if ($duplicate): ?>
