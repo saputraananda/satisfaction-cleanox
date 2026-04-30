@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $conn = getConnection();
     $stmt = $conn->prepare(
-        "INSERT INTO tr_customer_satisfaction
+        "INSERT INTO tr_customer_satisfaction_cleanox
             (no_nota, csat_score, csat_label, nps_score, nps_category, feedback_tags, feedback_text, ip_address, user_agent)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
     );
@@ -76,7 +76,7 @@ $nps_emoji  = $nps_score <= 6 ? '😔' : ($nps_score <= 8 ? '😌' : '🤩');
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Masukan Anda — Waschen Alora</title>
+  <title>Masukan Anda — PT Cleanox Indonesia</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -100,7 +100,7 @@ $nps_emoji  = $nps_score <= 6 ? '😔' : ($nps_score <= 8 ? '😌' : '🤩');
   </script>
   <style>
     * { font-family: 'Poppins', sans-serif; }
-    body { background: linear-gradient(135deg, #5B005F 0%, #8A4A8D 100%); }
+    body { background: linear-gradient(135deg, #0C2461 0%, #1e3799 100%); }
     .bubble { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.12); animation: floatUp linear infinite; }
     @keyframes floatUp {
       0%   { transform: translateY(100vh); opacity: .12; }
@@ -108,10 +108,10 @@ $nps_emoji  = $nps_score <= 6 ? '😔' : ($nps_score <= 8 ? '😌' : '🤩');
     }
     .tag-chip { cursor: pointer; transition: all .2s; user-select: none; }
     .tag-chip:hover { transform: scale(1.04); }
-    .tag-chip.selected { transform: scale(1.06); box-shadow: 0 4px 14px rgba(91,0,95,.2); }
-    textarea:focus { outline: none; border-color: #5B005F !important; box-shadow: 0 0 0 3px rgba(91,0,95,.1); }
-    .btn-primary { background: #5B005F; transition: background .2s, transform .15s, box-shadow .2s; }
-    .btn-primary:hover { background: #430046; box-shadow: 0 8px 24px rgba(91,0,95,.3); }
+    .tag-chip.selected { transform: scale(1.06); box-shadow: 0 4px 14px rgba(22,163,74,.2); }
+    textarea:focus { outline: none; border-color: #0C2461 !important; box-shadow: 0 0 0 3px rgba(12,36,97,.1); }
+    .btn-primary { background: #16a34a; transition: background .2s, transform .15s, box-shadow .2s; }
+    .btn-primary:hover { background: #15803d; box-shadow: 0 8px 24px rgba(22,163,74,.3); }
     .btn-primary:active { transform: scale(0.98); }
     .char-counter { transition: color .2s; }
     .progress-bar { transition: width .5s cubic-bezier(.4,0,.2,1); }
@@ -131,7 +131,7 @@ $nps_emoji  = $nps_score <= 6 ? '😔' : ($nps_score <= 8 ? '😌' : '🤩');
         </svg>
       </a>
       <div class="flex-1">
-        <p class="text-xs font-semibold uppercase tracking-widest" style="color:#5B005F;">Waschen Alora</p>
+        <p class="text-xs font-semibold uppercase tracking-widest" style="color:#0C2461;">PT Cleanox Indonesia</p>
         <p class="text-xs text-gray-400">Nota: <strong class="text-gray-600"><?= $no_nota ?></strong></p>
       </div>
       <span class="text-xs font-semibold text-gray-400 bg-gray-100 px-3 py-1 rounded-full">3 / 3</span>
@@ -139,19 +139,19 @@ $nps_emoji  = $nps_score <= 6 ? '😔' : ($nps_score <= 8 ? '😌' : '🤩');
 
     <!-- Progress -->
     <div class="w-full bg-gray-100 rounded-full h-1.5 mb-7 overflow-hidden">
-      <div class="progress-bar h-1.5 rounded-full" style="width:100%; background:#5B005F;"></div>
+      <div class="progress-bar h-1.5 rounded-full" style="width:100%; background:#0C2461;"></div>
     </div>
 
     <!-- Recap strip -->
     <div class="flex gap-3 mb-7 animate-fade-up" style="animation-delay:.05s">
-      <div class="flex-1 flex items-center gap-2 rounded-2xl px-3 py-2.5 border" style="background:#F6F1F7;border-color:#E9D5EA;">
+      <div class="flex-1 flex items-center gap-2 rounded-2xl px-3 py-2.5 border" style="background:#EFF6FF;border-color:#BFDBFE;">
         <span class="text-xl"><?= $csat_emoji ?></span>
         <div>
           <p class="text-xs font-medium text-gray-400">CSAT</p>
           <p class="text-xs font-semibold text-gray-700"><?= $csat_label ?></p>
         </div>
       </div>
-      <div class="flex-1 flex items-center gap-2 rounded-2xl px-3 py-2.5 border" style="background:#F6F1F7;border-color:#E9D5EA;">
+      <div class="flex-1 flex items-center gap-2 rounded-2xl px-3 py-2.5 border" style="background:#EFF6FF;border-color:#BFDBFE;">
         <span class="text-xl"><?= $nps_emoji ?></span>
         <div>
           <p class="text-xs font-medium text-gray-400">NPS</p>
@@ -162,14 +162,14 @@ $nps_emoji  = $nps_score <= 6 ? '😔' : ($nps_score <= 8 ? '😌' : '🤩');
 
     <!-- Title -->
     <div class="text-center mb-6 animate-fade-up" style="animation-delay:.1s">
-      <div class="inline-flex items-center gap-2 text-xs font-semibold px-4 py-1.5 rounded-full mb-3" style="background:#F3E6F5;color:#5B005F;">
+      <div class="inline-flex items-center gap-2 text-xs font-semibold px-4 py-1.5 rounded-full mb-3" style="background:#EFF6FF;color:#0C2461;">
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
         </svg>
         Langkah Terakhir
       </div>
       <h2 class="text-xl font-bold text-gray-800 leading-snug">
-        Ada yang ingin Anda <span style="color:#5B005F;">sampaikan</span>?
+        Ada yang ingin Anda <span style="color:#0C2461;">sampaikan</span>?
       </h2>
       <p class="text-gray-400 text-sm mt-1.5">Pilih area masukan <span class="font-medium text-gray-500">(opsional)</span></p>
     </div>
@@ -212,7 +212,7 @@ $nps_emoji  = $nps_score <= 6 ? '😔' : ($nps_score <= 8 ? '😌' : '🤩');
       </div>
 
       <!-- Selected tags preview -->
-      <div id="tagPreview" class="hidden mb-4 flex items-start gap-2 px-4 py-2.5 rounded-xl text-xs font-medium" style="background:#F3E6F5;border:1px solid #C7A1C9;color:#5B005F;">
+      <div id="tagPreview" class="hidden mb-4 flex items-start gap-2 px-4 py-2.5 rounded-xl text-xs font-medium" style="background:#F0FDF4;border:1px solid #BBF7D0;color:#16a34a;">
         <svg class="w-4 h-4 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
           <path fill-rule="evenodd" d="M17.707 9.293a1 1 0 010 1.414l-7 7a1 1 0 01-1.414 0l-7-7A.997.997 0 012 10V5a3 3 0 013-3h5c.256 0 .512.098.707.293l7 7zM5 6a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
         </svg>
@@ -262,7 +262,7 @@ $nps_emoji  = $nps_score <= 6 ? '😔' : ($nps_score <= 8 ? '😌' : '🤩');
     <div class="flex justify-center items-center gap-2 mt-6">
       <span class="w-2 h-2 rounded-full bg-gray-200"></span>
       <span class="w-2 h-2 rounded-full bg-gray-200"></span>
-      <span class="w-6 h-2 rounded-full" style="background:#5B005F;"></span>
+      <span class="w-6 h-2 rounded-full" style="background:#0C2461;"></span>
     </div>
   </div>
 
@@ -271,9 +271,9 @@ $nps_emoji  = $nps_score <= 6 ? '😔' : ($nps_score <= 8 ? '😌' : '🤩');
       const label = checkbox.closest('label');
       if (checkbox.checked) {
         label.classList.add('selected');
-        label.style.borderColor = '#5B005F';
-        label.style.background  = '#F3E6F5';
-        label.style.color       = '#5B005F';
+        label.style.borderColor = '#16a34a';
+        label.style.background  = '#F0FDF4';
+        label.style.color       = '#16a34a';
       } else {
         label.classList.remove('selected');
         label.style.borderColor = '';

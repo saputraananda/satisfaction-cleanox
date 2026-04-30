@@ -30,7 +30,7 @@ session_destroy();
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Terima Kasih — Waschen Laundry</title>
+  <title>Terima Kasih — PT Cleanox Indonesia</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -64,7 +64,7 @@ session_destroy();
     }
 
     body {
-      background: linear-gradient(135deg, #5B005F 0%, #8A4A8D 100%);
+      background: linear-gradient(135deg, #0C2461 0%, #1e3799 100%);
     }
 
     .bubble {
@@ -101,13 +101,13 @@ session_destroy();
     }
 
     .btn-primary {
-      background: #5B005F;
+      background: #16a34a;
       transition: background .2s, transform .15s, box-shadow .2s;
     }
 
     .btn-primary:hover {
-      background: #430046;
-      box-shadow: 0 8px 24px rgba(91, 0, 95, .3);
+      background: #15803d;
+      box-shadow: 0 8px 24px rgba(22, 163, 74, .3);
     }
 
     .btn-primary:active {
@@ -125,17 +125,17 @@ session_destroy();
 
     <!-- Brand logo -->
     <div class="flex flex-col items-center mb-6">
-      <img src="image/waschen.png" alt="Waschen Laundry" class="h-10 w-auto mb-2 object-contain">
-      <p class="text-xs font-semibold uppercase tracking-widest" style="color:#5B005F;">Waschen Laundry</p>
+      <img src="image/cleanox.png" alt="PT Cleanox Indonesia" class="h-10 w-auto mb-2 object-contain">
+      <p class="text-xs font-semibold uppercase tracking-widest" style="color:#0C2461;">PT Cleanox Indonesia</p>
     </div>
 
     <!-- Success icon -->
     <div class="flex justify-center mb-6 animate-pop" style="animation-delay:.15s">
       <div class="relative w-24 h-24 flex items-center justify-center">
         <div class="absolute inset-0 rounded-full opacity-30 animate-ping"
-          style="background:#C7A1C9;animation-duration:2s;"></div>
+          style="background:#93C5FD;animation-duration:2s;"></div>
         <div class="w-20 h-20 rounded-full flex items-center justify-center shadow-xl"
-          style="background:linear-gradient(135deg,#5B005F,#8A4A8D);">
+          style="background:linear-gradient(135deg,#0C2461,#1e3799);">
           <svg class="w-10 h-10 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path
               d="M12 2.5l2.09 1.07 2.34-.34 1.4 1.93 2.34.34.5 2.33 1.9 1.4-.5 2.33.5 2.33-1.9 1.4-.5 2.33-2.34.34-1.4 1.93-2.34-.34L12 21.5l-2.09-1.07-2.34.34-1.4-1.93-2.34-.34-.5-2.33-1.9-1.4.5-2.33-.5-2.33 1.9-1.4.5-2.33 2.34-.34 1.4-1.93 2.34.34L12 2.5zm-1.2 12.2l5.1-5.1-1.4-1.4-3.7 3.7-1.7-1.7-1.4 1.4 3.1 3.1z" />
@@ -156,7 +156,7 @@ session_destroy();
     <!-- Nota badge -->
     <div class="flex justify-center mb-7 animate-fade-up" style="animation-delay:.3s">
       <div class="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-full"
-        style="background:#F6F1F7;color:#5B005F;">
+        style="background:#EFF6FF;color:#0C2461;">
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round"
             d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -169,10 +169,10 @@ session_destroy();
     <div class="grid grid-cols-2 gap-3 mb-6 animate-fade-up" style="animation-delay:.35s">
 
       <!-- CSAT -->
-      <div class="rounded-2xl p-4 border" style="background:#F6F1F7;border-color:#E9D5EA;">
+      <div class="rounded-2xl p-4 border" style="background:#EFF6FF;border-color:#BFDBFE;">
         <div class="flex items-center gap-1.5 mb-2">
-          <span class="text-xs font-bold uppercase tracking-wider" style="color:#5B005F;">CSAT</span>
-          <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20" style="color:#8A4A8D;">
+          <span class="text-xs font-bold uppercase tracking-wider" style="color:#0C2461;">CSAT</span>
+          <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20" style="color:#1e3799;">
             <path
               d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
           </svg>
@@ -234,14 +234,14 @@ session_destroy();
 
     <!-- Footer -->
     <div class="mt-7 pt-5 border-t border-gray-100 flex items-center justify-center gap-2">
-      <img src="image/waschen.png" alt="" class="h-5 w-auto object-contain opacity-40">
-      <p class="text-xs text-gray-400 font-medium">Waschen Laundry</p>
+      <img src="image/cleanox.png" alt="" class="h-5 w-auto object-contain opacity-40">
+      <p class="text-xs text-gray-400 font-medium">PT Cleanox Indonesia</p>
     </div>
   </div>
 
   <script>
     // Confetti burst
-    const colors = ['#5B005F', '#8A4A8D', '#C7A1C9', '#F3E6F5', '#10B981', '#F59E0B', '#ffffff'];
+    const colors = ['#0C2461', '#1e3799', '#16a34a', '#22c55e', '#93C5FD', '#F59E0B', '#ffffff'];
     const confettiContainer = document.getElementById('confettiContainer');
 
     function makeConfetti() {

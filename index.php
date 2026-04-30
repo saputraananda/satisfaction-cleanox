@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   } else {
     $no_nota_safe = htmlspecialchars($no_nota, ENT_QUOTES, 'UTF-8');
     $conn = getConnection();
-    $stmt = $conn->prepare("SELECT id FROM tr_customer_satisfaction WHERE no_nota = ? LIMIT 1");
+    $stmt = $conn->prepare("SELECT id FROM tr_customer_satisfaction_cleanox WHERE no_nota = ? LIMIT 1");
     $stmt->bind_param('s', $no_nota);
     $stmt->execute();
     $stmt->store_result();
@@ -48,7 +48,7 @@ $posted_nota = htmlspecialchars($_POST['no_nota'] ?? '', ENT_QUOTES, 'UTF-8');
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Survey Kepuasan — Waschen Laundry</title>
+  <title>Survey Kepuasan — PT Cleanox Indonesia</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -74,19 +74,19 @@ $posted_nota = htmlspecialchars($_POST['no_nota'] ?? '', ENT_QUOTES, 'UTF-8');
   </script>
   <style>
     * { font-family: 'Poppins', sans-serif; }
-    body { background: linear-gradient(135deg, #5B005F 0%, #8A4A8D 100%); }
+    body { background: linear-gradient(135deg, #0C2461 0%, #1e3799 100%); }
     .bubble { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.12); animation: floatUp linear infinite; }
     @keyframes floatUp {
       0%   { transform: translateY(100vh) scale(1); opacity: .12; }
       100% { transform: translateY(-20vh) scale(1.2); opacity: 0; }
     }
     input:focus { outline: none; }
-    .btn-primary { background: #5B005F; transition: background .2s, transform .15s, box-shadow .2s; }
-    .btn-primary:hover:not(:disabled) { background: #430046; box-shadow: 0 8px 24px rgba(91,0,95,.35); }
+    .btn-primary { background: #16a34a; transition: background .2s, transform .15s, box-shadow .2s; }
+    .btn-primary:hover:not(:disabled) { background: #15803d; box-shadow: 0 8px 24px rgba(22,163,74,.35); }
     .btn-primary:active:not(:disabled) { transform: scale(0.98); }
     .btn-primary:disabled { opacity: .45; cursor: not-allowed; }
     .input-field { transition: border-color .2s, box-shadow .2s, background .2s; }
-    .input-field:focus { border-color: #5B005F; background: #fff; box-shadow: 0 0 0 3px rgba(91,0,95,.1); }
+    .input-field:focus { border-color: #0C2461; background: #fff; box-shadow: 0 0 0 3px rgba(12,36,97,.1); }
     .input-field.error { border-color: #EF4444; box-shadow: 0 0 0 3px rgba(239,68,68,.1); }
     /* Modal overlay */
     #modalOverlay { transition: opacity .25s; }
@@ -104,15 +104,15 @@ $posted_nota = htmlspecialchars($_POST['no_nota'] ?? '', ENT_QUOTES, 'UTF-8');
     <div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm px-8 py-8 animate-modal-in text-center">
       <!-- Icon -->
       <div class="flex justify-center mb-4">
-        <div class="w-16 h-16 rounded-full flex items-center justify-center" style="background:#F3E6F5;">
-          <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color:#5B005F;">
+        <div class="w-16 h-16 rounded-full flex items-center justify-center" style="background:#EFF6FF;">
+          <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color:#0C2461;">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
           </svg>
         </div>
       </div>
       <h3 class="text-lg font-bold text-gray-800 mb-2">Survey Sudah Diisi</h3>
       <p class="text-sm text-gray-500 mb-1">Nomor nota</p>
-      <p class="text-base font-bold mb-3" style="color:#5B005F;"><?= $duplicate ?></p>
+      <p class="text-base font-bold mb-3" style="color:#0C2461;"><?= $duplicate ?></p>
       <p class="text-sm text-gray-400 leading-relaxed mb-6">
         Nota ini sudah pernah mengisi survey.<br>Terima kasih atas partisipasi Anda!
       </p>
@@ -128,8 +128,8 @@ $posted_nota = htmlspecialchars($_POST['no_nota'] ?? '', ENT_QUOTES, 'UTF-8');
 
     <!-- Logo & Brand -->
     <div class="flex flex-col items-center mb-8">
-      <img src="image/waschen.png" alt="Waschen Laundry" class="h-16 w-auto mb-3 object-contain">
-      <h1 class="text-xl font-bold" style="color:#5B005F;">Waschen Laundry</h1>
+      <img src="image/cleanox.png" alt="PT Cleanox Indonesia" class="h-16 w-auto mb-3 object-contain">
+      <h1 class="text-xl font-bold" style="color:#0C2461;">PT Cleanox Indonesia</h1>
       <p class="text-xs font-medium text-gray-400 mt-0.5 tracking-wide uppercase">Survey Kepuasan Pelanggan</p>
     </div>
 
@@ -199,7 +199,7 @@ $posted_nota = htmlspecialchars($_POST['no_nota'] ?? '', ENT_QUOTES, 'UTF-8');
 
     <p class="text-center text-xs text-gray-400 mt-6 leading-relaxed">
       Data Anda aman dan hanya digunakan untuk meningkatkan<br>
-      kualitas layanan <span class="font-semibold" style="color:#5B005F;">Waschen Laundry</span>.
+      kualitas layanan <span class="font-semibold" style="color:#0C2461;">PT Cleanox Indonesia</span>.
     </p>
   </div>
 

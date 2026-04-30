@@ -43,7 +43,7 @@ $preselected = isset($_SESSION['nps_score']) ? (int) $_SESSION['nps_score'] : -1
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rekomendasi — Waschen Laundry</title>
+  <title>Rekomendasi — PT Cleanox Indonesia</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -73,7 +73,7 @@ $preselected = isset($_SESSION['nps_score']) ? (int) $_SESSION['nps_score'] : -1
     }
 
     body {
-      background: linear-gradient(135deg, #5B005F 0%, #8A4A8D 100%);
+      background: linear-gradient(135deg, #0C2461 0%, #1e3799 100%);
     }
 
     .bubble {
@@ -115,12 +115,12 @@ $preselected = isset($_SESSION['nps_score']) ? (int) $_SESSION['nps_score'] : -1
     }
 
     .btn-primary {
-      background: #5B005F;
+      background: #16a34a;
       transition: background .2s, transform .15s;
     }
 
     .btn-primary:hover:not(:disabled) {
-      background: #430046;
+      background: #15803d;
     }
 
     .btn-primary:active:not(:disabled) {
@@ -147,7 +147,7 @@ $preselected = isset($_SESSION['nps_score']) ? (int) $_SESSION['nps_score'] : -1
         </svg>
       </a>
       <div class="flex-1">
-        <p class="text-xs font-semibold uppercase tracking-widest" style="color:#5B005F;">Waschen Laundry</p>
+        <p class="text-xs font-semibold uppercase tracking-widest" style="color:#0C2461;">PT Cleanox Indonesia</p>
         <p class="text-xs text-gray-400">Nota: <strong class="text-gray-600"><?= $no_nota ?></strong></p>
       </div>
       <span class="text-xs font-semibold text-gray-400 bg-gray-100 px-3 py-1 rounded-full">2 / 3</span>
@@ -155,13 +155,13 @@ $preselected = isset($_SESSION['nps_score']) ? (int) $_SESSION['nps_score'] : -1
 
     <!-- Progress -->
     <div class="w-full bg-gray-100 rounded-full h-1.5 mb-7 overflow-hidden">
-      <div class="progress-bar h-1.5 rounded-full" style="width:66%; background:#5B005F;"></div>
+      <div class="progress-bar h-1.5 rounded-full" style="width:66%; background:#0C2461;"></div>
     </div>
 
     <!-- Title -->
     <div class="text-center mb-6 animate-fade-up" style="animation-delay:.08s">
       <div class="inline-flex items-center gap-2 text-xs font-semibold px-4 py-1.5 rounded-full mb-3"
-        style="background:#F3E6F5;color:#5B005F;">
+        style="background:#EFF6FF;color:#0C2461;">
         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
           <path
             d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
@@ -169,7 +169,7 @@ $preselected = isset($_SESSION['nps_score']) ? (int) $_SESSION['nps_score'] : -1
         Rekomendasi
       </div>
       <h2 class="text-xl font-bold text-gray-800 leading-snug">
-        Apakah Anda Akan <span style="color:#5B005F;">Merekomendasikan Kami</span> ke
+        Apakah Anda Akan <span style="color:#0C2461;">Merekomendasikan Kami</span> ke
         Teman dan Keluarga?
       </h2>
       <p class="text-gray-400 text-xs mt-2">0 = Tidak Mungkin &nbsp;·&nbsp; 10 = Pasti Rekomendasikan</p>
@@ -235,7 +235,7 @@ $preselected = isset($_SESSION['nps_score']) ? (int) $_SESSION['nps_score'] : -1
     <!-- Step dots -->
     <div class="flex justify-center items-center gap-2 mt-6">
       <span class="w-2 h-2 rounded-full bg-gray-200"></span>
-      <span class="w-6 h-2 rounded-full" style="background:#5B005F;"></span>
+      <span class="w-6 h-2 rounded-full" style="background:#0C2461;"></span>
       <span class="w-2 h-2 rounded-full bg-gray-200"></span>
     </div>
   </div>

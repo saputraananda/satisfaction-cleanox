@@ -37,7 +37,7 @@ $preselected = (int) ($_SESSION['csat_score'] ?? 0);
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Penilaian Layanan — Waschen Laundry</title>
+  <title>Penilaian Layanan — PT Cleanox Indonesia</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -65,7 +65,7 @@ $preselected = (int) ($_SESSION['csat_score'] ?? 0);
     }
 
     body {
-      background: linear-gradient(135deg, #5B005F 0%, #8A4A8D 100%);
+      background: linear-gradient(135deg, #0C2461 0%, #1e3799 100%);
     }
 
     .bubble {
@@ -117,12 +117,12 @@ $preselected = (int) ($_SESSION['csat_score'] ?? 0);
     }
 
     .btn-primary {
-      background: #5B005F;
+      background: #16a34a;
       transition: background .2s, transform .15s, opacity .2s;
     }
 
     .btn-primary:hover:not(:disabled) {
-      background: #430046;
+      background: #15803d;
     }
 
     .btn-primary:active:not(:disabled) {
@@ -146,7 +146,7 @@ $preselected = (int) ($_SESSION['csat_score'] ?? 0);
         </svg>
       </a>
       <div class="flex-1">
-        <p class="text-xs font-semibold uppercase tracking-widest" style="color:#5B005F;">Waschen Laundry</p>
+        <p class="text-xs font-semibold uppercase tracking-widest" style="color:#0C2461;">PT Cleanox Indonesia</p>
         <p class="text-xs text-gray-400">Nota: <strong class="text-gray-600"><?= $no_nota ?></strong></p>
       </div>
       <span class="text-xs font-semibold text-gray-400 bg-gray-100 px-3 py-1 rounded-full">1 / 3</span>
@@ -154,13 +154,13 @@ $preselected = (int) ($_SESSION['csat_score'] ?? 0);
 
     <!-- Progress -->
     <div class="w-full bg-gray-100 rounded-full h-1.5 mb-8 overflow-hidden">
-      <div class="progress-bar h-1.5 rounded-full" style="width:33%; background:#5B005F;"></div>
+      <div class="progress-bar h-1.5 rounded-full" style="width:33%; background:#0C2461;"></div>
     </div>
 
     <!-- Title -->
     <div class="text-center mb-8 animate-fade-up" style="animation-delay:.08s">
       <div class="inline-flex items-center gap-2 text-xs font-semibold px-4 py-1.5 rounded-full mb-3"
-        style="background:#F3E6F5;color:#5B005F;">
+        style="background:#EFF6FF;color:#0C2461;">
         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
           <path
             d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
@@ -208,11 +208,11 @@ $preselected = (int) ($_SESSION['csat_score'] ?? 0);
       <!-- Selected feedback strip -->
       <div id="selectedStrip"
         class="<?= $preselected ? '' : 'hidden' ?> mb-5 flex items-center justify-center gap-2 py-3 px-4 rounded-2xl text-sm font-semibold text-gray-700 animate-fade-up"
-        style="background:#F3E6F5;border:1px solid #C7A1C9;">
+        style="background:#EFF6FF;border:1px solid #BFDBFE;">
         <span id="selectedEmoji"
           class="text-xl"><?= $preselected ? ['', '😭', '😞', '😐', '😊', '🤩'][$preselected] : '' ?></span>
         <span>Anda memilih: <strong id="selectedLabel"
-            style="color:#5B005F;"><?= $preselected ? ['', 'Sangat Tidak Puas', 'Tidak Puas', 'Biasa Saja', 'Puas', 'Sangat Puas'][$preselected] : '' ?></strong></span>
+            style="color:#0C2461;"><?= $preselected ? ['', 'Sangat Tidak Puas', 'Tidak Puas', 'Biasa Saja', 'Puas', 'Sangat Puas'][$preselected] : '' ?></strong></span>
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"
           style="color:#10B981;">
           <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
@@ -230,7 +230,7 @@ $preselected = (int) ($_SESSION['csat_score'] ?? 0);
 
     <!-- Step dots -->
     <div class="flex justify-center items-center gap-2 mt-6">
-      <span class="w-6 h-2 rounded-full" style="background:#5B005F;"></span>
+      <span class="w-6 h-2 rounded-full" style="background:#0C2461;"></span>
       <span class="w-2 h-2 rounded-full bg-gray-200"></span>
       <span class="w-2 h-2 rounded-full bg-gray-200"></span>
     </div>
