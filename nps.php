@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (empty($_SESSION['no_nota'])) {
+if (empty($_SESSION['identifier_type'])) {
   header('Location: index.php');
   exit;
 }
@@ -31,7 +31,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   }
 }
 
-$no_nota = htmlspecialchars($_SESSION['no_nota'], ENT_QUOTES, 'UTF-8');
+$identifier_type = $_SESSION['identifier_type'] ?? 'nota';
+$identifier_display = $identifier_type === 'nama'
+  ? 'Nama: <strong class="text-gray-600">' . htmlspecialchars($_SESSION['nama'] ?? '', ENT_QUOTES, 'UTF-8') . '</strong>'
+  : 'Nota: <strong class="text-gray-600">' . htmlspecialchars($_SESSION['no_nota'] ?? '', ENT_QUOTES, 'UTF-8') . '</strong>';
 $csat_score = (int) $_SESSION['csat_score'];
 $csat_label = htmlspecialchars($_SESSION['csat_label'], ENT_QUOTES, 'UTF-8');
 $csat_emoji = ['', '😭', '😞', '😐', '😊', '🤩'][$csat_score] ?? '';
@@ -148,7 +151,7 @@ $preselected = isset($_SESSION['nps_score']) ? (int) $_SESSION['nps_score'] : -1
       </a>
       <div class="flex-1">
         <p class="text-xs font-semibold uppercase tracking-widest" style="color:#0C2461;">PT Cleanox Indonesia</p>
-        <p class="text-xs text-gray-400">Nota: <strong class="text-gray-600"><?= $no_nota ?></strong></p>
+        <p class="text-xs text-gray-400"><?= $identifier_display ?></p>
       </div>
       <span class="text-xs font-semibold text-gray-400 bg-gray-100 px-3 py-1 rounded-full">2 / 3</span>
     </div>

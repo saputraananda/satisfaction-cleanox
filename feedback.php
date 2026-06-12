@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (empty($_SESSION['no_nota'])) {
+if (empty($_SESSION['identifier_type'])) {
   header('Location: index.php');
   exit;
 }
@@ -39,7 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (strlen($feedback_text) > 2000)
     $feedback_text = substr($feedback_text, 0, 2000);
 
-  $no_nota = $_SESSION['no_nota'];
+  $no_nota = $_SESSION['no_nota'] ?? null;
+  $nama    = $_SESSION['nama'] ?? null;
   $csat_score = (int) $_SESSION['csat_score'];
   $csat_label = $_SESSION['csat_label'];
   $nps_score = (int) $_SESSION['nps_score'];
@@ -50,16 +51,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $conn = getConnection();
   $stmt = $conn->prepare(
     "INSERT INTO tr_customer_satisfaction_cleanox
-            (no_nota, csat_score, csat_label, nps_score, nps_category, feedback_tags, feedback_text, ip_address, user_agent)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+            (no_nota, nama, csat_score, csat_label, nps_score, nps_category, feedback_tags, feedback_text, ip_address, user_agent)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
   );
-  $stmt->bind_param('sisisssss', $no_nota, $csat_score, $csat_label, $nps_score, $nps_category, $feedback_tags, $feedback_text, $ip, $ua);
+  $stmt->bind_param('ssisisssss', $no_nota, $nama, $csat_score, $csat_label, $nps_score, $nps_category, $feedback_tags, $feedback_text, $ip, $ua);
 
   if ($stmt->execute()) {
     $_SESSION['done_csat'] = $csat_score;
     $_SESSION['done_label'] = $csat_label;
     $_SESSION['done_nps'] = $nps_score;
     $_SESSION['done_cat'] = $nps_category;
+    $_SESSION['done_identifier_type'] = $_SESSION['identifier_type'] ?? 'nota';
+    $_SESSION['done_no_nota'] = $no_nota;
+    $_SESSION['done_nama'] = $nama;
 
     unset(
       $_SESSION['csat_score'],
@@ -79,7 +83,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $conn->close();
 }
 
-$no_nota = htmlspecialchars($_SESSION['no_nota'], ENT_QUOTES, 'UTF-8');
+$identifier_type = $_SESSION['identifier_type'] ?? 'nota';
+$identifier_display = $identifier_type === 'nama'
+  ? 'Nama: <strong class="text-gray-600">' . htmlspecialchars($_SESSION['nama'] ?? '', ENT_QUOTES, 'UTF-8') . '</strong>'
+  : 'Nota: <strong class="text-gray-600">' . htmlspecialchars($_SESSION['no_nota'] ?? '', ENT_QUOTES, 'UTF-8') . '</strong>';
 $csat_score = (int) $_SESSION['csat_score'];
 $csat_label = htmlspecialchars($_SESSION['csat_label'], ENT_QUOTES, 'UTF-8');
 $nps_score = (int) $_SESSION['nps_score'];
@@ -203,7 +210,7 @@ $nps_emoji = $nps_score <= 6 ? '😔' : ($nps_score <= 8 ? '😌' : '🤩');
       </a>
       <div class="flex-1">
         <p class="text-xs font-semibold uppercase tracking-widest" style="color:#0C2461;">PT Cleanox Indonesia</p>
-        <p class="text-xs text-gray-400">Nota: <strong class="text-gray-600"><?= $no_nota ?></strong></p>
+        <p class="text-xs text-gray-400"><?= $identifier_display ?></p>
       </div>
       <span class="text-xs font-semibold text-gray-400 bg-gray-100 px-3 py-1 rounded-full">3 / 3</span>
     </div>

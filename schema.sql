@@ -2,11 +2,13 @@
 -- DDL: tr_customer_satisfaction_cleanox
 -- PT Waschen Alora Indonesia
 -- Dibuat: 2026-04-28
+-- Diupdate: 2026-06-12  (tambah kolom nama, identifier ganda)
 -- ============================================================
 
 CREATE TABLE IF NOT EXISTS `tr_customer_satisfaction_cleanox` (
   `id`            BIGINT UNSIGNED  NOT NULL AUTO_INCREMENT       COMMENT 'Primary key',
-  `no_nota`       VARCHAR(100)     NOT NULL                      COMMENT 'Nomor nota transaksi pelanggan',
+  `no_nota`       VARCHAR(100)     DEFAULT NULL                  COMMENT 'Nomor nota transaksi pelanggan (opsional jika pakai nama)',
+  `nama`          VARCHAR(200)     DEFAULT NULL                  COMMENT 'Nama pelanggan (opsional jika pakai no_nota)',
   `csat_score`    TINYINT UNSIGNED NOT NULL                      COMMENT 'Skor kepuasan 1–5 (1=Sangat Tidak Puas … 5=Sangat Puas)',
   `csat_label`    VARCHAR(50)      NOT NULL                      COMMENT 'Label deskriptif skor CSAT',
   `nps_score`     TINYINT UNSIGNED NOT NULL                      COMMENT 'Skor NPS 0–10 (0=Tidak Mungkin … 10=Sangat Mungkin)',
@@ -19,11 +21,12 @@ CREATE TABLE IF NOT EXISTS `tr_customer_satisfaction_cleanox` (
   `created_at`    DATETIME         NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at`    DATETIME         NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  UNIQUE KEY  `uq_no_nota`       (`no_nota`),
-  KEY         `idx_csat_score`   (`csat_score`),
-  KEY         `idx_nps_score`    (`nps_score`),
-  KEY         `idx_nps_category` (`nps_category`),
-  KEY         `idx_created_at`   (`created_at`)
+  KEY             `idx_no_nota`      (`no_nota`),
+  KEY             `idx_nama`          (`nama`),
+  KEY             `idx_csat_score`   (`csat_score`),
+  KEY             `idx_nps_score`    (`nps_score`),
+  KEY             `idx_nps_category` (`nps_category`),
+  KEY             `idx_created_at`   (`created_at`)
 ) ENGINE=InnoDB
   DEFAULT CHARSET=utf8mb4
   COLLATE=utf8mb4_unicode_ci

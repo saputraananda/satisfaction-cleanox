@@ -9,38 +9,80 @@ if (isset($_GET['reset'])) {
 
 require_once __DIR__ . '/config/db.php';
 
-$error     = '';   // validasi format
-$duplicate = '';   // nota sudah ada di DB → trigger modal
+$error          = '';   // validasi format
+$duplicate      = '';   // identifier sudah ada di DB → trigger modal
+$duplicate_type = '';   // 'nota' atau 'nama'
+$active_tab     = $_POST['identifier_type'] ?? 'nota';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  $no_nota = trim($_POST['no_nota'] ?? '');
+  $type = $_POST['identifier_type'] ?? 'nota';
 
-  if ($no_nota === '') {
-    $error = 'Nomor nota tidak boleh kosong.';
-  } elseif (!preg_match('/^\d{6}$/', $no_nota)) {
-    $error = 'Nomor nota harus tepat <strong>6 digit angka</strong>.';
-  } else {
-    $no_nota_safe = htmlspecialchars($no_nota, ENT_QUOTES, 'UTF-8');
-    $conn = getConnection();
-    $stmt = $conn->prepare("SELECT id FROM tr_customer_satisfaction_cleanox WHERE no_nota = ? LIMIT 1");
-    $stmt->bind_param('s', $no_nota);
-    $stmt->execute();
-    $stmt->store_result();
+  if ($type === 'nama') {
+    $nama = trim($_POST['nama'] ?? '');
 
-    if ($stmt->num_rows > 0) {
-      $duplicate = $no_nota_safe;   // tampilkan modal
+    if ($nama === '') {
+      $error = 'Nama tidak boleh kosong.';
+    } elseif (mb_strlen($nama) < 3) {
+      $error = 'Nama minimal <strong>3 karakter</strong>.';
     } else {
-      $_SESSION['no_nota'] = $no_nota;
-      $_SESSION['step']    = 'csat';
-      header('Location: csat.php');
-      exit;
+      $nama_safe = htmlspecialchars($nama, ENT_QUOTES, 'UTF-8');
+      $conn = getConnection();
+      $stmt = $conn->prepare("SELECT id FROM tr_customer_satisfaction_cleanox WHERE nama = ? LIMIT 1");
+      $stmt->bind_param('s', $nama);
+      $stmt->execute();
+      $stmt->store_result();
+
+      if ($stmt->num_rows > 0) {
+        $duplicate      = $nama_safe;
+        $duplicate_type = 'nama';
+      } else {
+        $_SESSION['identifier_type'] = 'nama';
+        $_SESSION['no_nota']         = null;
+        $_SESSION['nama']            = $nama;
+        $_SESSION['step']            = 'csat';
+        header('Location: csat.php');
+        exit;
+      }
+      $stmt->close();
+      $conn->close();
     }
-    $stmt->close();
-    $conn->close();
+    $active_tab = 'nama';
+  } else {
+    // Default: nomor nota
+    $no_nota = trim($_POST['no_nota'] ?? '');
+
+    if ($no_nota === '') {
+      $error = 'Nomor nota tidak boleh kosong.';
+    } elseif (!preg_match('/^\d{6}$/', $no_nota)) {
+      $error = 'Nomor nota harus tepat <strong>6 digit angka</strong>.';
+    } else {
+      $no_nota_safe = htmlspecialchars($no_nota, ENT_QUOTES, 'UTF-8');
+      $conn = getConnection();
+      $stmt = $conn->prepare("SELECT id FROM tr_customer_satisfaction_cleanox WHERE no_nota = ? LIMIT 1");
+      $stmt->bind_param('s', $no_nota);
+      $stmt->execute();
+      $stmt->store_result();
+
+      if ($stmt->num_rows > 0) {
+        $duplicate      = $no_nota_safe;
+        $duplicate_type = 'nota';
+      } else {
+        $_SESSION['identifier_type'] = 'nota';
+        $_SESSION['no_nota']         = $no_nota;
+        $_SESSION['nama']            = null;
+        $_SESSION['step']            = 'csat';
+        header('Location: csat.php');
+        exit;
+      }
+      $stmt->close();
+      $conn->close();
+    }
+    $active_tab = 'nota';
   }
 }
 
 $posted_nota = htmlspecialchars($_POST['no_nota'] ?? '', ENT_QUOTES, 'UTF-8');
+$posted_nama = htmlspecialchars($_POST['nama'] ?? '', ENT_QUOTES, 'UTF-8');
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -88,6 +130,10 @@ $posted_nota = htmlspecialchars($_POST['no_nota'] ?? '', ENT_QUOTES, 'UTF-8');
     .input-field { transition: border-color .2s, box-shadow .2s, background .2s; }
     .input-field:focus { border-color: #0C2461; background: #fff; box-shadow: 0 0 0 3px rgba(12,36,97,.1); }
     .input-field.error { border-color: #EF4444; box-shadow: 0 0 0 3px rgba(239,68,68,.1); }
+    /* Tab active states */
+    .tab-active { background: #0C2461; color: #fff; }
+    .tab-inactive { background: #F1F5F9; color: #64748B; }
+    .tab-inactive:hover { background: #E2E8F0; }
     /* Modal overlay */
     #modalOverlay { transition: opacity .25s; }
     #modalOverlay.hidden { display: none; }
@@ -98,7 +144,7 @@ $posted_nota = htmlspecialchars($_POST['no_nota'] ?? '', ENT_QUOTES, 'UTF-8');
 
   <div id="bubblesContainer" class="fixed inset-0 pointer-events-none overflow-hidden"></div>
 
-  <!-- ===== MODAL: Nota sudah diisi ===== -->
+  <!-- ===== MODAL: Survey sudah diisi ===== -->
   <?php if ($duplicate): ?>
   <div id="modalOverlay" class="fixed inset-0 z-50 flex items-center justify-center p-4" style="background:rgba(0,0,0,.5);">
     <div class="bg-white rounded-3xl shadow-2xl w-full max-w-sm px-8 py-8 animate-modal-in text-center">
@@ -111,10 +157,10 @@ $posted_nota = htmlspecialchars($_POST['no_nota'] ?? '', ENT_QUOTES, 'UTF-8');
         </div>
       </div>
       <h3 class="text-lg font-bold text-gray-800 mb-2">Survey Sudah Diisi</h3>
-      <p class="text-sm text-gray-500 mb-1">Nomor nota</p>
+      <p class="text-sm text-gray-500 mb-1"><?= $duplicate_type === 'nama' ? 'Nama' : 'Nomor nota' ?></p>
       <p class="text-base font-bold mb-3" style="color:#0C2461;"><?= $duplicate ?></p>
       <p class="text-sm text-gray-400 leading-relaxed mb-6">
-        Nota ini sudah pernah mengisi survey.<br>Terima kasih atas partisipasi Anda!
+        <?= $duplicate_type === 'nama' ? 'Nama ini' : 'Nota ini' ?> sudah pernah mengisi survey.<br>Terima kasih atas partisipasi Anda!
       </p>
       <button onclick="closeModal()" class="btn-primary w-full py-3 rounded-2xl text-white font-semibold text-sm">
         Tutup
@@ -133,11 +179,22 @@ $posted_nota = htmlspecialchars($_POST['no_nota'] ?? '', ENT_QUOTES, 'UTF-8');
       <p class="text-xs font-medium text-gray-400 mt-0.5 tracking-wide uppercase">Survey Kepuasan Pelanggan</p>
     </div>
 
-    <!-- Divider -->
-    <div class="flex items-center gap-3 mb-6">
-      <div class="flex-1 h-px bg-gray-100"></div>
-      <span class="text-xs font-semibold text-gray-300 uppercase tracking-widest">Masukkan Nota</span>
-      <div class="flex-1 h-px bg-gray-100"></div>
+    <!-- Tab Switcher -->
+    <div class="flex p-1 rounded-2xl bg-gray-100 mb-6" role="tablist">
+      <button type="button" id="tabNota" onclick="switchTab('nota')" role="tab"
+        class="flex-1 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center justify-center gap-1.5 <?= $active_tab === 'nota' ? 'tab-active' : 'tab-inactive' ?>">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+        </svg>
+        Nomor Nota
+      </button>
+      <button type="button" id="tabNama" onclick="switchTab('nama')" role="tab"
+        class="flex-1 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 flex items-center justify-center gap-1.5 <?= $active_tab === 'nama' ? 'tab-active' : 'tab-inactive' ?>">
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+        </svg>
+        Nama Pelanggan
+      </button>
     </div>
 
     <!-- Inline error (validasi format) -->
@@ -151,38 +208,62 @@ $posted_nota = htmlspecialchars($_POST['no_nota'] ?? '', ENT_QUOTES, 'UTF-8');
     <?php endif; ?>
 
     <!-- Form -->
-    <form method="POST" autocomplete="off" id="notaForm">
-      <label class="block text-sm font-semibold text-gray-600 mb-2" for="no_nota">Nomor Nota Transaksi</label>
+    <form method="POST" autocomplete="off" id="surveyForm">
+      <input type="hidden" id="identifier_type" name="identifier_type" value="<?= htmlspecialchars($active_tab, ENT_QUOTES, 'UTF-8') ?>">
 
-      <div class="relative">
-        <span class="absolute inset-y-0 left-4 flex items-center text-gray-400 pointer-events-none">
-          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-          </svg>
-        </span>
-        <input
-          type="text"
-          id="no_nota"
-          name="no_nota"
-          placeholder="6 digit terakhir nomor nota"
-          value="<?= $posted_nota ?>"
-          maxlength="6"
-          inputmode="numeric"
-          pattern="[0-9]{6}"
-          required
-          class="input-field <?= $error ? 'error' : '' ?> w-full pl-12 pr-16 py-3.5 rounded-2xl border-2 border-gray-200 text-gray-800 font-medium text-sm bg-gray-50"
-          oninput="onNotaInput(this)"
-        >
-        <!-- Digit counter badge -->
-        <span id="digitCounter"
-          class="absolute inset-y-0 right-4 flex items-center text-xs font-semibold pointer-events-none"
-          style="color:#CBD5E1;">
-          <span id="digitCount">0</span>/6
-        </span>
+      <!-- ===== TAB: Nomor Nota ===== -->
+      <div id="contentNota" style="<?= $active_tab === 'nota' ? '' : 'display:none;' ?>">
+        <label class="block text-sm font-semibold text-gray-600 mb-2" for="no_nota">Nomor Nota Transaksi</label>
+        <div class="relative">
+          <span class="absolute inset-y-0 left-4 flex items-center text-gray-400 pointer-events-none">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+          </span>
+          <input
+            type="text"
+            id="no_nota"
+            name="no_nota"
+            placeholder="6 digit terakhir nomor nota"
+            value="<?= $posted_nota ?>"
+            maxlength="6"
+            inputmode="numeric"
+            pattern="[0-9]{6}"
+            class="input-field <?= $error && $active_tab === 'nota' ? 'error' : '' ?> w-full pl-12 pr-16 py-3.5 rounded-2xl border-2 border-gray-200 text-gray-800 font-medium text-sm bg-gray-50"
+            oninput="onNotaInput(this)"
+          >
+          <!-- Digit counter badge -->
+          <span id="digitCounter"
+            class="absolute inset-y-0 right-4 flex items-center text-xs font-semibold pointer-events-none"
+            style="color:#CBD5E1;">
+            <span id="digitCount">0</span>/6
+          </span>
+        </div>
+        <p id="digitHint" class="text-xs mt-1.5 ml-1 text-gray-400">Masukkan 6 digit angka dari nomor nota Anda.</p>
       </div>
 
-      <!-- Hint below input -->
-      <p id="digitHint" class="text-xs mt-1.5 ml-1 text-gray-400">Masukkan 6 digit angka dari nomor nota Anda.</p>
+      <!-- ===== TAB: Nama Pelanggan ===== -->
+      <div id="contentNama" style="<?= $active_tab === 'nama' ? '' : 'display:none;' ?>">
+        <label class="block text-sm font-semibold text-gray-600 mb-2" for="nama">Nama Lengkap Anda</label>
+        <div class="relative">
+          <span class="absolute inset-y-0 left-4 flex items-center text-gray-400 pointer-events-none">
+            <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+            </svg>
+          </span>
+          <input
+            type="text"
+            id="nama"
+            name="nama"
+            placeholder="Masukkan nama lengkap Anda"
+            value="<?= $posted_nama ?>"
+            maxlength="200"
+            class="input-field <?= $error && $active_tab === 'nama' ? 'error' : '' ?> w-full pl-12 pr-4 py-3.5 rounded-2xl border-2 border-gray-200 text-gray-800 font-medium text-sm bg-gray-50"
+            oninput="onNamaInput(this)"
+          >
+        </div>
+        <p id="namaHint" class="text-xs mt-1.5 ml-1 text-gray-400">Minimal 3 karakter, gunakan nama asli Anda.</p>
+      </div>
 
       <button type="submit" id="submitBtn" disabled
         class="btn-primary mt-5 w-full py-3.5 rounded-2xl text-white font-semibold text-base shadow-md flex items-center justify-center gap-2">
@@ -204,10 +285,32 @@ $posted_nota = htmlspecialchars($_POST['no_nota'] ?? '', ENT_QUOTES, 'UTF-8');
   </div>
 
   <script>
-    function onNotaInput(input) {
-      // Strip non-digits
-      input.value = input.value.replace(/\D/g, '').slice(0, 6);
+    let activeTab = '<?= addslashes($active_tab) ?>';
 
+    function switchTab(tab) {
+      activeTab = tab;
+      document.getElementById('identifier_type').value = tab;
+
+      // Toggle tab button styles
+      const tabNota = document.getElementById('tabNota');
+      const tabNama = document.getElementById('tabNama');
+      tabNota.className = tabNota.className.replace(/tab-active|tab-inactive/g, '').trim() + (tab === 'nota' ? ' tab-active' : ' tab-inactive');
+      tabNama.className = tabNama.className.replace(/tab-active|tab-inactive/g, '').trim() + (tab === 'nama' ? ' tab-active' : ' tab-inactive');
+
+      // Toggle content
+      document.getElementById('contentNota').style.display = tab === 'nota' ? '' : 'none';
+      document.getElementById('contentNama').style.display = tab === 'nama' ? '' : 'none';
+
+      // Re-validate active tab
+      if (tab === 'nota') {
+        onNotaInput(document.getElementById('no_nota'));
+      } else {
+        onNamaInput(document.getElementById('nama'));
+      }
+    }
+
+    function onNotaInput(input) {
+      input.value = input.value.replace(/\D/g, '').slice(0, 6);
       const len     = input.value.length;
       const counter = document.getElementById('digitCount');
       const hint    = document.getElementById('digitHint');
@@ -237,18 +340,49 @@ $posted_nota = htmlspecialchars($_POST['no_nota'] ?? '', ENT_QUOTES, 'UTF-8');
       }
     }
 
-    // Init counter if value pre-filled (e.g. after POST error)
+    function onNamaInput(input) {
+      const len    = input.value.trim().length;
+      const hint   = document.getElementById('namaHint');
+      const submit = document.getElementById('submitBtn');
+
+      if (len === 0) {
+        hint.textContent  = 'Minimal 3 karakter, gunakan nama asli Anda.';
+        hint.style.color  = '#94a3b8';
+        input.classList.remove('error');
+        submit.disabled   = true;
+      } else if (len < 3) {
+        hint.textContent  = `Masih kurang ${3 - len} karakter lagi.`;
+        hint.style.color  = '#F59E0B';
+        input.classList.remove('error');
+        submit.disabled   = true;
+      } else {
+        hint.textContent  = 'Siap! Klik Mulai Survey.';
+        hint.style.color  = '#10B981';
+        input.classList.remove('error');
+        submit.disabled   = false;
+      }
+    }
+
+    // Init counters if values pre-filled (e.g. after POST error)
     const notaInput = document.getElementById('no_nota');
+    const namaInput = document.getElementById('nama');
     if (notaInput.value.length > 0) onNotaInput(notaInput);
+    if (namaInput.value.length > 0) onNamaInput(namaInput);
 
     function closeModal() {
       document.getElementById('modalOverlay').classList.add('hidden');
-      notaInput.value = '';
-      onNotaInput(notaInput);
-      notaInput.focus();
+      if (activeTab === 'nota') {
+        notaInput.value = '';
+        onNotaInput(notaInput);
+        notaInput.focus();
+      } else {
+        namaInput.value = '';
+        onNamaInput(namaInput);
+        namaInput.focus();
+      }
     }
 
-    document.getElementById('notaForm').addEventListener('submit', function() {
+    document.getElementById('surveyForm').addEventListener('submit', function() {
       document.getElementById('btnText').textContent = 'Memproses...';
       document.getElementById('btnIcon').classList.add('hidden');
       document.getElementById('btnSpinner').classList.remove('hidden');

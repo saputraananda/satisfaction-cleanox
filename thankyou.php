@@ -6,7 +6,11 @@ if (empty($_SESSION['done_csat'])) {
   exit;
 }
 
-$no_nota = htmlspecialchars($_SESSION['no_nota'] ?? '', ENT_QUOTES, 'UTF-8');
+$identifier_type = $_SESSION['done_identifier_type'] ?? 'nota';
+$identifier_label = $identifier_type === 'nama'
+  ? htmlspecialchars($_SESSION['done_nama'] ?? '', ENT_QUOTES, 'UTF-8')
+  : htmlspecialchars($_SESSION['done_no_nota'] ?? '', ENT_QUOTES, 'UTF-8');
+$identifier_prefix = $identifier_type === 'nama' ? 'Nama' : 'Nota';
 $csat = (int) $_SESSION['done_csat'];
 $csat_lbl = htmlspecialchars($_SESSION['done_label'] ?? '', ENT_QUOTES, 'UTF-8');
 $nps = (int) $_SESSION['done_nps'];
@@ -153,15 +157,21 @@ session_destroy();
       </p>
     </div>
 
-    <!-- Nota badge -->
+    <!-- Identifier badge -->
     <div class="flex justify-center mb-7 animate-fade-up" style="animation-delay:.3s">
       <div class="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2 rounded-full"
         style="background:#EFF6FF;color:#0C2461;">
+        <?php if ($identifier_type === 'nota'): ?>
         <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
           <path stroke-linecap="round" stroke-linejoin="round"
             d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
-        Nota: <strong><?= $no_nota ?></strong>
+        <?php else: ?>
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        </svg>
+        <?php endif; ?>
+        <?= $identifier_prefix ?>: <strong><?= $identifier_label ?></strong>
       </div>
     </div>
 
@@ -228,7 +238,7 @@ session_destroy();
     <div class="animate-fade-up" style="animation-delay:.45s">
       <a href="index.php?reset=1"
         class="btn-primary block w-full py-3.5 rounded-2xl text-center font-semibold text-sm text-white shadow-md">
-        Isi Survey Nota Lain
+        Isi Survey Lainnya
       </a>
     </div>
 
