@@ -314,10 +314,10 @@ $nps_emoji = $nps_score <= 6 ? '😔' : ($nps_score <= 8 ? '😌' : '🤩');
       <!-- Textarea -->
       <div class="mb-6">
         <label class="block text-sm font-semibold text-gray-600 mb-2" for="feedback_text">
-          Ceritakan lebih lanjut <span class="text-gray-400 font-normal">(opsional)</span>
+          Kritik dan Saran <span class="text-gray-400 font-normal">(opsional)</span>
         </label>
         <textarea id="feedback_text" name="feedback_text" rows="4" maxlength="2000"
-          placeholder="Tuliskan pengalaman atau saran Anda di sini..."
+          placeholder="Tuliskan kritik atau saran Anda di sini..."
           class="w-full px-4 py-3.5 rounded-2xl border-2 border-gray-200 transition-all text-gray-700 text-sm bg-gray-50 focus:bg-white resize-none leading-relaxed"
           oninput="updateCharCount(this)"></textarea>
         <div class="flex justify-end mt-1">
